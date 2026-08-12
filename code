@@ -1,0 +1,61 @@
+// تعاريف منافذ المحركات
+const int IN1 = 2; // محركات الجهة اليسرى
+const int IN2 = 3;
+const int IN3 = 4; // محركات الجهة اليمنى
+const int IN4 = 5;
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+}
+
+// دوال التحكم بالحركة
+void moveForward() {
+  digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
+}
+
+void moveBackward() {
+  digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);
+}
+
+void turnLeft() {
+  digitalWrite(IN1, LOW);  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
+}
+
+void turnRight() {
+  digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);  digitalWrite(IN4, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(IN1, LOW); digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW); digitalWrite(IN4, LOW);
+}
+
+void loop() {
+  // 1. الحركة للأمام لمدة 30 ثانية
+  moveForward();
+  delay(30000);
+
+  // 2. الحركة للخلف لمدة 60 ثانية
+  moveBackward();
+  delay(60000);
+
+  // 3. التناوب بين اليمين واليسار لمدة دقيقة (60 ثانية)
+  // تكرار الانعطاف كل ثانية لمدة 30 دورة (30 * 2 = 60 ثانية)
+  for (int i = 0; i < 30; i++) {
+    turnLeft();
+    delay(1000);
+    turnRight();
+    delay(1000);
+  }
+
+  // إيقاف المحركات بعد انتهاء الدورة
+  stopMotors();
+  delay(5000); 
+}
